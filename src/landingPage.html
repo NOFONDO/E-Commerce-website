@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuxeShop - Quality Products, Rapidly Delivered</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-100 transition-colors duration-200">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-solid border-[#e7edf3] dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-10 py-3 flex items-center justify-between gap-8">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight tracking-tight">LuxeShop</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#0d141b] dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-[#0d141b] dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">Categories</a>
+<a class="text-[#0d141b] dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="text-[#0d141b] dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">Deals</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<label class="hidden sm:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden border border-[#e7edf3] dark:border-slate-700">
+<div class="text-[#4c739a] bg-[#e7edf3] dark:bg-slate-800 flex items-center justify-center px-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full text-[#0d141b] dark:text-white focus:outline-0 border-none bg-[#e7edf3] dark:bg-slate-800 px-2 text-sm placeholder:text-[#4c739a]" placeholder="Search products..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#e7edf3] dark:bg-slate-800 text-[#0d141b] dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#e7edf3] dark:bg-slate-800 text-[#0d141b] dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto">
+<!-- Hero Section -->
+<section class="px-4 py-10 @container">
+<div class="flex flex-col gap-8 @[864px]:flex-row @[864px]:items-center @[864px]:justify-between bg-white dark:bg-slate-900/50 rounded-2xl p-6 @[480px]:p-10 border border-[#e7edf3] dark:border-slate-800 shadow-sm">
+<div class="flex flex-col gap-6 @[864px]:max-w-[500px]">
+<div class="flex flex-col gap-4">
+<span class="text-primary font-bold tracking-widest text-xs uppercase">Premium Sprint Demo</span>
+<h1 class="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-tight @[480px]:text-6xl">
+                            Quality Products, Rapidly Delivered
+                        </h1>
+<p class="text-[#4c739a] dark:text-slate-400 text-lg leading-relaxed">
+                            Experience the future of shopping with our lightning-fast platform. Built using Agile methodologies for speed, reliability, and precision.
+                        </p>
+</div>
+<div class="flex flex-wrap gap-4">
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary text-white text-base font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+                            <a href="/src/login.html">Shop Now</a>
+                        </button>
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white border border-[#cfdbe7] dark:border-slate-700 text-base font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                            Learn More
+                        </button>
+</div>
+</div>
+<div class="w-full @[864px]:w-[500px] h-[300px] @[480px]:h-[400px] bg-center bg-no-repeat bg-cover rounded-xl shadow-2xl overflow-hidden" data-alt="Lifestyle shot of modern gadgets and professional workspace items" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6UVORZyu9wxLC8zadsitoH4tejigePsMRDR8E7Ic-qReefI7J2PGCDG3ngTorszmnLVhBXEOMpkqk8n7B0j6RCB9BlJX5Lmw3mNkZoKkk3Ryn3xayMAFT7tDkqqWGwW5-svTvr3MpCPtneMo5aa2STZ0ygxnwb7RPjnNxpbHGYhdb1NIRdaQdr7DgIi2eD1l1yE0k4eS7rJgy8oX2XqcpDc7BnX8GFUxHOm4-M34WXQfNzruA5oJxgFip1CzZ1EDvmEyBmqwL3w");'>
+</div>
+</div>
+</section>
+<!-- Feature Section -->
+<section class="px-4 py-16 @container">
+<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-4 text-center items-center max-w-[800px] mx-auto">
+<h2 class="text-[#0d141b] dark:text-white tracking-tight text-3xl font-bold @[480px]:text-4xl">
+                        Why Choose AgileCommerce
+                    </h2>
+<p class="text-[#4c739a] dark:text-slate-400 text-lg">
+                        Our platform is engineered for efficiency, ensuring you get the best products with the best service.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-4 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-white dark:bg-slate-900 p-8 hover:shadow-md transition-shadow">
+<div class="text-primary bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">local_shipping</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">Fast Delivery</h3>
+<p class="text-[#4c739a] dark:text-slate-400 text-base leading-normal">
+                                From our warehouse to your door in record time using automated routing.
+                            </p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-white dark:bg-slate-900 p-8 hover:shadow-md transition-shadow">
+<div class="text-primary bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">verified_user</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">Secure Payment</h3>
+<p class="text-[#4c739a] dark:text-slate-400 text-base leading-normal">
+                                Industry-standard encryption and multi-factor authentication for every transaction.
+                            </p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-white dark:bg-slate-900 p-8 hover:shadow-md transition-shadow">
+<div class="text-primary bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">bolt</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">Agile Built</h3>
+<p class="text-[#4c739a] dark:text-slate-400 text-base leading-normal">
+                                Iteratively improved based on user feedback to meet your evolving shopping needs.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section Header -->
+<div class="px-4 pb-3 pt-5 flex items-center justify-between">
+<h2 class="text-[#0d141b] dark:text-white text-2xl font-bold leading-tight tracking-tight">Featured Products</h2>
+<a class="text-primary text-sm font-semibold hover:underline" href="/src/productList.html">View All</a>
+</div>
+<!-- ImageGrid / Product Preview -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+<!-- Product 1 -->
+<div class="group flex flex-col gap-3 pb-3 bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-[#e7edf3] dark:border-slate-800 hover:shadow-lg transition-all">
+<div class="relative w-full aspect-square overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern sleek smartwatch with black silicone strap" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB33FDqu5MaaNFIWKDA0E1DKmeal7fkI081ues1uX1LQ7xiXrRX2P2spyOTIJjmjUAZ3O6sJ1ocxbN10v308s4168JvIs3oZPjFC3CVISmmuKR3nDdQyRgTpW_NuY-f8AXZmllzBcoJYAhHTG2PiKYaBAAW2akZB9S4xBdDZ8bo4TLPcQpojA8Vn30KDvzKLxRc0k3i9oneH_hxww6TU7xZU5-elEcki1rIAso-kq4g-lIANyau3cxFGoL1RVb038xcZZWGtDH9qw");'></div>
+<span class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">Best Seller</span>
+</div>
+<div class="p-4">
+<p class="text-[#0d141b] dark:text-white text-base font-bold leading-normal truncate">Modern Tech Watch</p>
+<div class="flex items-center justify-between mt-1">
+<p class="text-primary text-lg font-bold leading-normal">XAF 190,000</p>
+<p class="text-[#4c739a] dark:text-slate-400 text-xs font-normal">Free Shipping</p>
+</div>
+<button class="mt-4 w-full h-10 border border-primary/30 text-primary dark:text-primary dark:border-primary/50 font-bold rounded-lg hover:bg-primary hover:text-white transition-colors"><a href="/src/login.html">Shop Now</a></button>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="group flex flex-col gap-3 pb-3 bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-[#e7edf3] dark:border-slate-800 hover:shadow-lg transition-all">
+<div class="relative w-full aspect-square overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Gray minimalist waterproof backpack" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCA1GUIndtBv98JAy-8EiMRKkmovxymRtiGZ1Y9Bn4WlAiTXTSfpNB7KeERS6ul8UUJqX9DilcOe8bggP3Bm59Q1L1Kmk_4xanQJSm-20ZRBBbyO44gottwcGi2_I8x8nA_tsj4F5WaiP_j8Ij8a0RJvwYNKrz6eW5T1wsQ8Rf8RnX_8Adw2DAc8m9BQwW-8Io3KG5A4srAPk5vH8jUTzDzf1XcS677CV2hRkJTC_msjdzt_d_9O36Tw6m2GqTsrR3mRyaFvR2ZDg");'></div>
+<span class="absolute top-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">New</span>
+</div>
+<div class="p-4">
+<p class="text-[#0d141b] dark:text-white text-base font-bold leading-normal truncate">Minimalist Backpack</p>
+<div class="flex items-center justify-between mt-1">
+<p class="text-primary text-lg font-bold leading-normal">XAF 8,500</p>
+<p class="text-[#4c739a] dark:text-slate-400 text-xs font-normal">Last few left</p>
+</div>
+<button class="mt-4 w-full h-10 border border-primary/30 text-primary dark:text-primary dark:border-primary/50 font-bold rounded-lg hover:bg-primary hover:text-white transition-colors"><a href="login.html">Shop Now</a></button>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="group flex flex-col gap-3 pb-3 bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-[#e7edf3] dark:border-slate-800 hover:shadow-lg transition-all">
+<div class="relative w-full aspect-square overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern ergonomic LED desk lamp" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrtwxR_tcqrQkwYs10FRUD1jdS6KdVykB-rNGb1rJsTHfHl02hVGpk1DX0l05d5YeVZJX7rTmPwg0hyHXSLBCVG1_wzP8OhP8Sy3qKWYoBVksVr3caa1q-Cz6efNeNjMgOzPlAbkiAyEwj28q6wcyZ5k4G58jTay0zKrGL3kEyeL0eIvFaUDE4iMWwBEhU7HyZ8zjBBoMpY3fUWirapM4XnY-0mEirU_mHW4ddVB2JUygvJce5sJVP6rPpRjYLzbT3H2cVGmT8ag");'></div>
+<span class="absolute top-2 right-2 bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">20% Off</span>
+</div>
+<div class="p-4">
+<p class="text-[#0d141b] dark:text-white text-base font-bold leading-normal truncate">Ergonomic Desk Lamp</p>
+<div class="flex items-center justify-between mt-1">
+<p class="text-primary text-lg font-bold leading-normal">XAF 12000</p>
+<p class="text-[#4c739a] dark:text-slate-400 text-xs font-normal strike text-decoration-line: line-through">XAF 5,000</p>
+</div>
+<button class="mt-4 w-full h-10 border border-primary/30 text-primary dark:text-primary dark:border-primary/50 font-bold rounded-lg hover:bg-primary hover:text-white transition-colors"><a href="login.html">Shop Now</a></button>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="group flex flex-col gap-3 pb-3 bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-[#e7edf3] dark:border-slate-800 hover:shadow-lg transition-all">
+<div class="relative w-full aspect-square overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="White noise-canceling wireless earbuds" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuClRFruBHLSCWv-uAOSL_vdqt7Z2kvSQ8CufACzYJ2BkiaJMvSVGN3uQKh1AO5KU5MEshwIcnLEq9f8IiE_Gs-cT0kqOLlWGRG8AgnpR2LV9Q-lWziytSRh5Jq92cOCcoyv85GD07cnflh85Gzl4DkcejXVrBQ2z7fwUjVwxaHDnQEOXD_8KXKQLtjlkWm23Hy8aI8pl_5cRkcjZbxodqS8vxlLsezTIbewoauHcvYP9zT1drVHpVSvXjRwv6Fv5u5IWDbUvH2PdQ");'></div>
+<span class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">Trending</span>
+</div>
+<div class="p-4">
+<p class="text-[#0d141b] dark:text-white text-base font-bold leading-normal truncate">Wireless Earbuds Pro</p>
+<div class="flex items-center justify-between mt-1">
+<p class="text-primary text-lg font-bold leading-normal">XAF 150,000</p>
+<p class="text-[#4c739a] dark:text-slate-400 text-xs font-normal">4.9/5 Rating</p>
+</div>
+<button class="mt-4 w-full h-10 border border-primary/30 text-primary dark:text-primary dark:border-primary/50 font-bold rounded-lg hover:bg-primary hover:text-white transition-colors"><a href="login.html">Shop Now</a></button>
+</div>
+</div>
+</section>
+<!-- Newsletter Section (Custom Addition for Professionalism) -->
+<section class="px-4 py-16">
+<div class="bg-primary rounded-2xl p-10 text-center flex flex-col items-center gap-6 shadow-xl shadow-primary/20">
+<h2 class="text-white text-3xl font-bold tracking-tight">Stay Ahead of the Curve</h2>
+<p class="text-white/80 max-w-[600px] text-lg">
+                    Subscribe to get early access to our weekly agile-curated drops and exclusive member-only deals.
+                </p>
+<form class="flex flex-col sm:flex-row gap-3 w-full max-w-[500px]" onsubmit="return false;">
+<input class="w-full rounded-lg h-12 px-4 border-none text-[#0d141b] focus:ring-2 focus:ring-white/50" placeholder="Enter your email" type="email"/>
+<button class="bg-white text-primary font-bold h-12 px-8 rounded-lg hover:bg-slate-100 transition-colors">Join Now</button>
+</form>
+</div>
+</section>
+</main>
+<!-- Professional Footer -->
+<footer class="bg-white dark:bg-slate-950 border-t border-[#e7edf3] dark:border-slate-800 mt-10">
+<div class="max-w-[1280px] mx-auto px-10 py-16">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold">LuxeShop</h2>
+</div>
+<p class="text-[#4c739a] dark:text-slate-400 text-sm leading-relaxed">
+                        Redefining the digital marketplace through iterative excellence and customer-centric design.
+                    </p>
+<div class="flex gap-4">
+<a class="text-[#4c739a] dark:text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-[#4c739a] dark:text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="text-[#4c739a] dark:text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-sm uppercase tracking-widest mb-6">Shopping</h3>
+<ul class="flex flex-col gap-4 text-sm text-[#4c739a] dark:text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="#">All Categories</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">New Arrivals</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Special Offers</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Our Best Sellers</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-sm uppercase tracking-widest mb-6">Company</h3>
+<ul class="flex flex-col gap-4 text-sm text-[#4c739a] dark:text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Agile Methodology</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-sm uppercase tracking-widest mb-6">Help Center</h3>
+<ul class="flex flex-col gap-4 text-sm text-[#4c739a] dark:text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="#">Shipping Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Returns &amp; Refunds</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-[#e7edf3] dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+<p class="text-sm text-[#4c739a] dark:text-slate-500">© 2024 AgileCommerce. 3-Hour Sprint Demo variant.</p>
+<div class="flex items-center gap-6">
+<span class="text-xs text-[#4c739a] font-mono">v1.0.4-stable</span>
+<button class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400 hover:text-primary" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+                        Toggle Theme
+                    </button>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registration Page - StoreName</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <!-- Firebase SDK - Compat version for easier integration -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="./auth.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
+    <!-- ... (unchanged navigation) ... -->
+
+    <!-- ... (unchanged form content) ... -->
+
+    <!-- Top Navigation Bar -->
+    <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3">
+        <div class="flex items-center gap-4 text-primary">
+            <div class="size-6">
+                <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+            </div>
+            <h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">StoreName
+            </h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+                <a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="#">Home</a>
+                <a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="#">Products</a>
+                <a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="#">About</a>
+            </div>
+            <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-all"
+                href="login.html">
+                Sign In
+            </a>
+        </div>
+    </header>
+    <!-- Main Registration Content -->
+    <main class="flex-1 flex items-center justify-center p-6 sm:p-12">
+        <div
+            class="w-full max-w-[480px] bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-100 dark:border-slate-800 p-8">
+            <!-- Headline and Subtext -->
+            <div class="flex flex-col items-center mb-8">
+                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary">
+                    <span class="material-symbols-outlined text-2xl">person_add</span>
+                </div>
+                <h1 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight text-center">Create your
+                    account</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal text-center mt-2">Join
+                    our community for a seamless shopping experience.</p>
+            </div>
+            <!-- Registration Form -->
+            <form id="registerForm" class="space-y-4">
+                <!-- Full Name Field -->
+                <div class="flex flex-col w-full">
+                    <label class="flex flex-col min-w-40 flex-1">
+                        <p class="text-slate-900 dark:text-slate-200 text-sm font-semibold leading-normal pb-2">Full
+                            Name</p>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">person</span>
+                            <input
+                                id="fullName"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-4 text-base font-normal leading-normal"
+                                placeholder="Enter your full name" type="text" required />
+                        </div>
+                    </label>
+                </div>
+                <!-- Email Address Field -->
+                <div class="flex flex-col w-full">
+                    <label class="flex flex-col min-w-40 flex-1">
+                        <p class="text-slate-900 dark:text-slate-200 text-sm font-semibold leading-normal pb-2">Email
+                            Address</p>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">mail</span>
+                            <input
+                                id="email"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-4 text-base font-normal leading-normal"
+                                placeholder="email@example.com" type="email" required />
+                        </div>
+                    </label>
+                </div>
+                <!-- Password Field -->
+                <div class="flex flex-col w-full">
+                    <label class="flex flex-col min-w-40 flex-1">
+                        <p class="text-slate-900 dark:text-slate-200 text-sm font-semibold leading-normal pb-2">Password
+                        </p>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
+                            <input
+                                id="password"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-12 text-base font-normal leading-normal"
+                                placeholder="••••••••" type="password" required />
+                            <button
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                type="button">
+                                <span class="material-symbols-outlined text-xl">visibility_off</span>
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <!-- Confirm Password Field -->
+                <div class="flex flex-col w-full">
+                    <label class="flex flex-col min-w-40 flex-1">
+                        <p class="text-slate-900 dark:text-slate-200 text-sm font-semibold leading-normal pb-2">Confirm
+                            Password</p>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock_reset</span>
+                            <input
+                                id="confirmPassword"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-4 text-base font-normal leading-normal"
+                                placeholder="••••••••" type="password" required />
+                        </div>
+                    </label>
+                </div>
+                <!-- Terms and Conditions Checkbox -->
+                <div class="flex items-start gap-3 px-1 py-3">
+                    <input
+                        class="mt-1 h-5 w-5 rounded border-slate-300 dark:border-slate-700 text-primary focus:ring-primary"
+                        id="terms" type="checkbox" />
+                    <label class="text-sm text-slate-600 dark:text-slate-400 leading-tight" for="terms">
+                        By creating an account, I agree to the <a class="text-primary font-medium hover:underline"
+                            href="#">Terms of Service</a> and <a class="text-primary font-medium hover:underline"
+                            href="#">Privacy Policy</a>.
+                    </label>
+                </div>
+                <!-- Primary CTA Button -->
+                <button
+                    class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 mt-2"
+                    type="submit">
+                    <span class="truncate">Create Account</span>
+                </button>
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-200 dark:border-slate-800"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white dark:bg-slate-900 text-slate-500">Or register with</span>
+                    </div>
+                </div>
+                <!-- Social Sign Up -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button
+                        class="flex items-center justify-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 p-2 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors dark:text-white"
+                        type="button">
+                        <svg class="w-5 h-5" viewbox="0 0 24 24">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4"></path>
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853"></path>
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                                fill="#FBBC05"></path>
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335"></path>
+                        </svg>
+                        Google
+                    </button>
+                    <button
+                        class="flex items-center justify-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 p-2 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors dark:text-white"
+                        type="button">
+                        <svg class="w-5 h-5 fill-[#1877F2]" viewbox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                            </path>
+                        </svg>
+                        Facebook
+                    </button>
+                </div>
+            </form>
+            <!-- Bottom Redirect Link -->
+            <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+                <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">
+                    Already have an account?
+                    <a class="text-primary hover:text-primary/80 transition-colors font-bold" href="login.html">Log in</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <!-- Footer Copyright -->
+    <footer class="py-6 text-center text-slate-400 dark:text-slate-600 text-xs">
+        © 2024 StoreName E-commerce Platform. All rights reserved.
+    </footer>
+    <script>
+        // Wait for everything to load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, initializing...');
+            
+            // Wait a bit to ensure all scripts are loaded
+            setTimeout(function() {
+                console.log('Checking for auth module:', typeof window.auth);
+                
+                if (!window.auth) {
+                    console.error('Auth module not found!');
+                    alert('Error: Authentication module not loaded. Please refresh the page.');
+                    return;
+                }
+
+                // Initialize Firebase
+                console.log('Initializing Firebase...');
+                const fbAuth = window.auth.initFirebase();
+                if (!fbAuth) {
+                    console.error('Failed to initialize Firebase');
+                    alert('Error: Failed to initialize Firebase. Please check your configuration and refresh.');
+                    return;
+                }
+
+                const registerForm = document.getElementById('registerForm');
+                console.log('Register form found:', !!registerForm);
+                
+                // Also attach to button click as backup
+                const submitBtn = registerForm ? registerForm.querySelector('button[type="submit"]') : null;
+                if (submitBtn) {
+                    console.log('Submit button found:', true);
+                    submitBtn.addEventListener('click', function(e) {
+                        console.log('Submit button clicked!');
+                    });
+                }
+                
+                if (registerForm) {
+                    console.log('Attaching submit event listener to form...');
+                    registerForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Form submit event triggered');
+
+                        const fullName = document.getElementById('fullName');
+                        const email = document.getElementById('email');
+                        const password = document.getElementById('password');
+                        const confirmPassword = document.getElementById('confirmPassword');
+                        const termsCheckbox = document.getElementById('terms');
+
+                        console.log('Input elements:', {
+                            fullName: !!fullName,
+                            email: !!email,
+                            password: !!password,
+                            confirmPassword: !!confirmPassword,
+                            terms: !!termsCheckbox
+                        });
+
+                        if (!fullName || !email || !password || !confirmPassword) {
+                            alert('Error: Form inputs not found. Please refresh the page.');
+                            return;
+                        }
+
+                        const fullNameValue = fullName.value.trim();
+                        const emailValue = email.value.trim();
+                        const passwordValue = password.value;
+                        const confirmPasswordValue = confirmPassword.value;
+
+                        if (!fullNameValue || !emailValue || !passwordValue || !confirmPasswordValue) {
+                            alert('Please fill in all fields');
+                            return;
+                        }
+
+                        if (!termsCheckbox || !termsCheckbox.checked) {
+                            alert('Please agree to the Terms of Service and Privacy Policy');
+                            return;
+                        }
+
+                        if (passwordValue !== confirmPasswordValue) {
+                            alert("Passwords do not match!");
+                            return;
+                        }
+
+                        if (passwordValue.length < 6) {
+                            alert("Password must be at least 6 characters long");
+                            return;
+                        }
+
+                        console.log('Submitting registration for:', emailValue);
+                        
+                        // Disable submit button to prevent double submission
+                        const submitBtn = registerForm.querySelector('button[type="submit"]');
+                        if (submitBtn) {
+                            submitBtn.disabled = true;
+                            const btnSpan = submitBtn.querySelector('span');
+                            if (btnSpan) {
+                                btnSpan.textContent = 'Creating Account...';
+                            } else {
+                                submitBtn.textContent = 'Creating Account...';
+                            }
+                        }
+
+                        try {
+                            const { data, error } = await window.auth.signUp(emailValue, passwordValue, fullNameValue);
+
+                            if (error) {
+                                console.error('Registration failed:', error);
+                                alert('Failed to create user: ' + (error.message || JSON.stringify(error)));
+                            } else {
+                                console.log('Registration success:', data);
+                                alert('Sign up successful! Redirecting to products...');
+                                window.location.href = 'login.html';
+                            }
+                        } catch (err) {
+                            console.error('Unexpected error:', err);
+                            alert('An unexpected error occurred: ' + err.message);
+                        } finally {
+                            // Re-enable submit button
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                const btnSpan = submitBtn.querySelector('span');
+                                if (btnSpan) {
+                                    btnSpan.textContent = 'Create Account';
+                                } else {
+                                    submitBtn.textContent = 'Create Account';
+                                }
+                            }
+                        }
+                    });
+                    console.log('Form event listener attached successfully');
+                } else {
+                    console.error('Register form not found!');
+                    alert('Error: Registration form not found. Please refresh the page.');
+                }
+            }, 500); // Wait 500ms for scripts to fully load
+        });
+    </script>
+</body>
+
+</html>

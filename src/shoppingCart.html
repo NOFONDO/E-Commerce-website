@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cart Summary Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path></svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">ShopModern</h2>
+</div>
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Shop</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Categories</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Deals</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Orders</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<label class="hidden sm:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg" data-icon="search">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-0 h-full placeholder:text-slate-400 px-4 rounded-r-lg pl-2 text-base font-normal" placeholder="Search products..." value=""/>
+</div>
+</label>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1Fsj-Fy91DEitCs0A7NxrPvma364WZFtVhXB7vb7h-zNkZ7rFtMXtBENKuFTZ3Sb76PZchfNVd9TbFupT-OHS5si_B6yHzI_QHA2CZP-Tah127BgMxWjN6HrnfVgrSjfqsGJvf5UUpCyu_AeS-nLuSb2PN950UXlLuTOR6ToUR_qieqiaObdJ0SrCm-N7RdxSECKRPP_UuA1K1YUrQTOCy2kVxRSjIMvESA55IK6K_OjayUD4BVvbArqme1KARoiA9AbxnkMCNg");'></div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-6">
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-sm text-slate-400">chevron_right</span>
+<span class="text-slate-900 dark:text-white text-sm font-semibold">Shopping Cart</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-1 mb-8">
+<h1 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight">Shopping Cart</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base">You have 3 items in your cart for checkout.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Left Column: Item List -->
+<div class="flex-1 flex flex-col gap-4">
+<!-- Product Item 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 justify-between">
+<div class="flex items-center gap-6">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-24 border border-slate-100 dark:border-slate-800" data-alt="Premium Wireless Headphones in Space Gray" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9Y9_Qvvubu5Px1FsjVg4Umt9ti8V6lFy_FIjCYI3V3XWOnyCs7YLNcRXbwdVULUULegvJrG9tfZCvFMw6QPYLDLH0RZmjCxauO_AQVakzLWOaJiOyifzb1uB7NehKIiSUcdnb0UHkSil-qUHyqcmFSODxzBQ--DMTfNrqlPrfvdQv5aFQTphLzQ3IIpASgQh9s0Q-FX0npasJVA1ZAYQGTaudpPCknkTGlQrgkr0ywoFKC7_2RppimzJIHjlQdxDZDCcBCS3P-w");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Premium Wireless Headphones</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal mt-1">Space Gray | Model 2024</p>
+<p class="text-primary font-bold mt-2">$299.00</p>
+<button class="text-red-500 text-xs font-semibold mt-2 flex items-center gap-1 hover:text-red-600 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm">delete</span> Remove
+                                    </button>
+</div>
+</div>
+<div class="shrink-0">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+<button class="text-lg font-bold flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-slate-700 hover:bg-slate-50 transition-colors shadow-sm">-</button>
+<input class="text-base font-bold w-6 p-0 text-center bg-transparent border-none focus:ring-0" readonly="" type="number" value="1"/>
+<button class="text-lg font-bold flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-slate-700 hover:bg-slate-50 transition-colors shadow-sm">+</button>
+</div>
+</div>
+</div>
+<!-- Product Item 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 justify-between">
+<div class="flex items-center gap-6">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-24 border border-slate-100 dark:border-slate-800" data-alt="Mechanical RGB Backlit Keyboard" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxRO42piQz6UeVuTzLrHJkc4yVVwS9N7ekPvnsLnDwnLobCIXe3hnodG0mhl3XiU48LLWPNybR6lHS2VI3hQyRiHZm6Aq6Yj5qjyp80WdFRjjWTJYhwNs5ZNpPb8Gk73TNo82Y703hFz23K7_18yjN-Aq_jsrHrXvua0MEQsee6p21VvcEwxfYwy-93geMqqK2PlDSz4EMTb8zcvUTr_gWQyyy7z86uBOHKS5eKpX6-Iumxjp7JIoD4hZu7tLNeMnjpeLScjnSgA");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Mechanical Keyboard</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal mt-1">RGB Backlit | Brown Switches</p>
+<p class="text-primary font-bold mt-2">$149.00</p>
+<button class="text-red-500 text-xs font-semibold mt-2 flex items-center gap-1 hover:text-red-600 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm">delete</span> Remove
+                                    </button>
+</div>
+</div>
+<div class="shrink-0">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+<button class="text-lg font-bold flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-slate-700 hover:bg-slate-50 transition-colors shadow-sm">-</button>
+<input class="text-base font-bold w-6 p-0 text-center bg-transparent border-none focus:ring-0" readonly="" type="number" value="1"/>
+<button class="text-lg font-bold flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-slate-700 hover:bg-slate-50 transition-colors shadow-sm">+</button>
+</div>
+</div>
+</div>
+<!-- Product Item 3 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 justify-between">
+<div class="flex items-center gap-6">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-24 border border-slate-100 dark:border-slate-800" data-alt="Ergonomic Optical Mouse" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDfCKehmMi2GekgKFLjOwKpFqTMjvLBjp1_ryS-4-iuOQFxm1cvsBTHdZSdNNLiD6MBTP2VTUaUrpCC6MfNU278qmcIJYdaPYMXwv7x7HB8O6hIeIUwg29v6zPi8Sva_FIlpfZlYml0Wk5qw0NwIlb5n3S7LPXKJ04k3L9YDoggOw4ZPXajfJPEyCujhvXtFVMFNGHl3_9arILQG9QMBQLZ57UkdgJ8MOgu-lpbGsG4Gz9W2HQSuV7YFwN2TUsKVYLrQEPhI9uxzQ");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Ergonomic Mouse</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal mt-1">Wireless | 16000 DPI</p>
+<p class="text-primary font-bold mt-2">$79.00</p>
+<button class="text-red-500 text-xs font-semibold mt-2 flex items-center gap-1 hover:text-red-600 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm">delete</span> Remove
+                                    </button>
+</div>
+</div>
+<div class="shrink-0">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+<button class="text-lg font-bold flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-slate-700 hover:bg-slate-50 transition-colors shadow-sm">-</button>
+<input class="text-base font-bold w-6 p-0 text-center bg-transparent border-none focus:ring-0" readonly="" type="number" value="1"/>
+<button class="text-lg font-bold flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-slate-700 hover:bg-slate-50 transition-colors shadow-sm">+</button>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<a class="inline-flex items-center gap-2 text-primary font-semibold hover:underline decoration-2 underline-offset-4" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+                                Continue Shopping
+                            </a>
+</div>
+</div>
+<!-- Right Column: Sidebar Summary -->
+<div class="w-full lg:w-96">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 sticky top-24">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Order Summary</h3>
+<!-- Promo Code -->
+<div class="mb-6">
+<label class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2 block">Promo Code</label>
+<div class="flex gap-2">
+<input class="flex-1 rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary" placeholder="Enter code" type="text"/>
+<button class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">Apply</button>
+</div>
+</div>
+<div class="space-y-4 border-b border-slate-100 dark:border-slate-800 pb-6 mb-6">
+<div class="flex justify-between">
+<span class="text-slate-500 dark:text-slate-400">Subtotal</span>
+<span class="text-slate-900 dark:text-white font-medium">$527.00</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 dark:text-slate-400">Estimated Tax</span>
+<span class="text-slate-900 dark:text-white font-medium">$42.16</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 dark:text-slate-400">Shipping</span>
+<span class="text-green-500 font-medium">Free</span>
+</div>
+</div>
+<div class="flex justify-between items-end mb-8">
+<span class="text-lg font-bold text-slate-900 dark:text-white">Total</span>
+<div class="text-right">
+<p class="text-3xl font-black text-slate-900 dark:text-white">$569.16</p>
+<p class="text-xs text-slate-400">Including all applicable taxes</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group">
+                                Checkout Now
+                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="mt-6 flex items-center justify-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">credit_card</span>
+<span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+<span class="material-symbols-outlined text-3xl">contactless</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-10 px-10 mt-12">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined">security</span>
+<p class="text-sm">Secure checkout powered by Stripe SSL</p>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-primary text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-primary text-sm" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-primary text-sm" href="#">Refund Policy</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

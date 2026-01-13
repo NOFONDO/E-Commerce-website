@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Listing Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 md:px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">LuxeStore</h2>
+</div>
+<!-- Search Bar in Nav -->
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-md w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 flex border-none bg-slate-200/50 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-1 focus:ring-primary border-none bg-slate-200/50 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search products..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-200/50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-800" data-alt="User profile avatar portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBa8ROIoYXL6ZzzDfrq8-bskkobePNThfDjb14OIDa_ERO6Er3cnvelpppJOw7ztDp7B7Vf0ruStG3DimeqY-oC5QcZqaODdE3p5g1_clmZ5hcOVzif9GWwHQTuDu-wjy-7UlSG34Og13lAC7JrAobFuksoylMYxW1byy7lSt8ww_YJCRT7vT73z4_SR1TOrzdMfqvhHci6fLQiEn4DA2_NNFTeR9R1EXOkJIYq5kSUeDDgXgAC8AAALM9PxXSKHs6v70y3qRzrzw");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+<!-- Mobile Search Bar (Visible only on small screens) -->
+<div class="md:hidden mb-6">
+<label class="flex flex-col h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full shadow-sm">
+<div class="text-slate-500 flex border-none bg-white dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-white dark:bg-slate-800 h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search products..." value=""/>
+</div>
+</label>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-3 pb-6 overflow-x-auto no-scrollbar">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-white px-5 transition-transform active:scale-95">
+<p class="text-sm font-semibold leading-normal">All Items</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<p class="text-sm font-medium leading-normal">Electronics</p>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<p class="text-sm font-medium leading-normal">Office</p>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<p class="text-sm font-medium leading-normal">Wearables</p>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<p class="text-sm font-medium leading-normal">Furniture</p>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<!-- Page Title and Sort -->
+<div class="flex items-center justify-between mb-6">
+<h1 class="text-2xl font-bold tracking-tight">New Arrivals</h1>
+<div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+<span>Sort by:</span>
+<button class="font-semibold text-slate-900 dark:text-white flex items-center gap-1">
+                                Featured <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Modern wireless over-ear headphones in matte black" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAP_MHtJgV-JpslNVSD2pcIPqXGYTZwE0-dykqykWqQsIWmOnup2WGOUXWcFku7r_an2PRLsVcKUHk_CL474zD75UfwFNvs21hKkX49gY5LVrD107OLDaAU5VN_fqHu60rhmnRWCmCx43RgvnHaGjzvvZ45Un88EUjayocz1SpsXAihdClVKnXexI-YDfknxzYl1s9IbRlqzVLLd4X1_3UHxU9jdYaiAi6FQNXDYkrpYdzwoKu4s0Vo45gHWiOcpjVME71lkp5ag");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">Wireless Headphones</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 5000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">Noise-cancelling bluetooth headset</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Sleek silver smartwatch with black band" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAoNITzHXp5m1wpsyKgcuAaW2Eh_0IRhb17ooQUIZqi2BUjtLyrBB0LC3BEETqByL8j3prnBaHkTmEc5e9tL87c9pRPxF-lJkKRyYDm2bfgf0DRW-TD6JaJN3jbdnQJWdMAHU86USrlIOgVBlR8SImkM1LLgRoQ6SHMFWe5WJL689ksfoiAUZqtKmMCvpRPOa_FBp5e3x4NNQXu790_dODrJ6ysgnQWjDyIEp5AJKhnG-J5ow574bjlHYPyNjZuYvZ5rQKKNAsjMA");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">Pro Smart Watch</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 10000.</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">Health monitoring &amp; GPS built-in</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Ergonomic mesh office chair in gray" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAjVJfEof1ZfoU4sIfhB4zs39U8Mh9hwGpXvAhwRVHC7VMsmv-tJhtjw2UyWsvq_V4ksyKYNwn7caR2K_Nc8dxgDhkL4UtH-BXQOXlYYzd1neCUkBPF96fe7eXHVlyxcq73wrV45rj_MvgVdPs0bHMZk-txRLCvHWl_vV82wZoXgS2a77CbAhW7FC0HzIh-xrik7vqpj6iIjt5W-2T86x_zOMMzfYYwytCLzzXW3HIBF5S0h5RdDCXLoBxlY-zaoD1O_bBwI9JF_A");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">ErgoDesk Chair</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 25000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">Full lumbar support and breathable mesh</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Compact mechanical keyboard with RGB lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2SF8PB7Cm9ZVJwwGez3dclrzjZgS9qplD0MWLTj2wXYaAjrVo6e7rfoA4iQALqIb10u-W93q6ZOOg6j-1bnWk65gffirwFBDelILnMmmGSqSr8Umw3PL7QMAK5nPLMbuHJpkkPiYWsifQeabaH1c6EWGdG2zJgz1eZYEdHOqkBgIicJGmCwXYwDFq76LOC0McWa10xiYqSOnQimziAgF1hfnj7vIwm-2s0d7GC2idIMZB8q47skTFjkvTBo_opmDOz4kGRU0mFw");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">Mechanical Keyboard</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 15000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">Tactile switches with customizable keys</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Professional camera lens on studio background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBB6VAyvX2p_qhvm9JX89Ejddc9Y3UG9IaIR9ir6HbUMQ_N5GUV1LbYXAzoqM1p4BR5iKj637V7j-LN0HU8I_yAdOEDMZNnws-bpcYYtRQ8T0p08827QB-odrMYhv_-98b-n5VIwGpQXf4aEILuwCA2PKfE4BMX5RlLMeP9dW5v3KAt2S0aADRwAH3WG-3VJ2Pph_bDTx0tfuL_207UKSBTNnONQzY9sGSpKVqdSdiIE6_QaRoJOaSvBiKJVXHfeinw-NBEAD_LyQ");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">DSLR Lens Pro</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 250000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">f/1.8 wide aperture for perfect bokeh</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Minimalist desk lamp with adjustable arm" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDQutAezMeVd-tjqhN6yuhL5tIvfV1MEqeqNGezmX9ioMCgIHmeB5iFrrZxWRQCqsR7QCTZLtxjifCPN9pQzqLJEbNxXkkrLy7E_tdEz7xQFQ_B4Y8SEb4n6aY9DxTZjRcGREd7kX_1wtR-Hcu_bqhB0_LhA2yYvVzQmv3vlVD4KyF4rBFs178_3lkevyxU7glb44CiIaTUhTwydCW4DIP3vGTFgGmZOuYRFFFg4NKKLVMYzac5peRDbBFYUi4AZkKbXnGHXafm-Q");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">Nordic Desk Lamp</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 20000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">Adjustable color temperature LED</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Large portable power bank with multiple ports" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwF52NJAYe7u_7QMQkLgXQkAJmPRP5wbNxVfioBIUDxhgonLxoDFNZG8qD7ekFBqHiP-4zrj7i4tGxNqtcGqU2041HvlRJzFAtSYhC_gdQQGYBWKxzwgO_4L-D2KGMtd7FxYNzJkX-ur5Ca1ox9wj9bH4ShiXvXHWYaEnvrIaK745VltfnHQIQaeBqxxLWkAkbHtAsqvMRYHofMC-VMFBq8azax6eTwimkgsNDqcqAGp_Gup1ysJHCOJ4QChqMxq4sBaXzW2iJLQ");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">PowerMax 20K</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 15000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">20,000mAh capacity with fast charging</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="group flex flex-col gap-3 bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow duration-300">
+<div class="relative w-full aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 group-hover:scale-105" data-alt="Premium leather laptop sleeve in brown" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz7QZcIiVRuqhmh26r8D9xJCnZ65_ZotrRt66UE23ZoFzK_1aWokiw0_YQil4zkpINJEezzcs03cMnfXDUT20REx_RSnM7KRGOW8P_zlDMafwbNMFAT4EgpSonSvHMeFUrjUfY4G4gLATzwcdeYieyCKyFzToas4DQs_PTQfeqqa2JGLNumctlF8YV1GMgkrkmT2RelGsTMc0rUm5bq0WkS3mnkFPmFZeLWsnzDpgPo4HIVk8C-2I_VerpDAePqn6S2JYziX0enw");'></div>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-900 dark:text-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold leading-tight group-hover:text-primary transition-colors">Leather Sleeve</h3>
+<p class="text-slate-900 dark:text-white text-base font-bold">XAF 5000</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal line-clamp-1">Genuine hand-crafted leather protector</p>
+<button class="mt-3 w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    View Details
+                                </button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-center py-12 gap-1">
+<button class="flex size-10 items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-lg bg-primary">1</button>
+<button class="text-sm font-medium leading-normal flex size-10 items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">2</button>
+<button class="text-sm font-medium leading-normal flex size-10 items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">3</button>
+<span class="px-2 text-slate-400">...</span>
+<button class="text-sm font-medium leading-normal flex size-10 items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">12</button>
+<button class="flex size-10 items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-10">
+<div class="max-w-[1200px] mx-auto px-4 md:px-10 flex flex-col md:flex-row justify-between gap-8 text-sm text-slate-500 dark:text-slate-400">
+<div>
+<div class="flex items-center gap-2 text-slate-900 dark:text-white font-bold mb-4">
+<div class="size-5 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+                            LuxeStore
+                        </div>
+<p class="max-w-xs">Curated selection of premium products for your lifestyle. Excellence delivered to your doorstep.</p>
+</div>
+<div class="flex gap-12 flex-wrap">
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-slate-900 dark:text-white">Shop</h4>
+<a class="hover:text-primary transition-colors" href="#">Laptops</a>
+<a class="hover:text-primary transition-colors" href="#">Audio</a>
+<a class="hover:text-primary transition-colors" href="#">Furniture</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-slate-900 dark:text-white">Support</h4>
+<a class="hover:text-primary transition-colors" href="#">Returns</a>
+<a class="hover:text-primary transition-colors" href="#">Shipping</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto px-4 md:px-10 mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 text-xs text-center md:text-left">
+        © 2026 Successful Design project E-Commerce Sprint.
+                </div>
+</footer>
+</div>
+</div>
+</body></html>
