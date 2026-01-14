@@ -66,9 +66,78 @@ function initFirebase() {
     return auth;
 }
 
+// Email validation function
+function validateEmail(email) {
+    if (!email || typeof email !== 'string') {
+        return { isValid: false, message: 'Email is required' };
+    }
+    
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+        return { isValid: false, message: 'Email is required' };
+    }
+    
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+        return { isValid: false, message: 'Please enter a valid email address' };
+    }
+    
+    // Additional checks
+    if (trimmedEmail.length > 254) {
+        return { isValid: false, message: 'Email address is too long' };
+    }
+    
+    const localPart = trimmedEmail.split('@')[0];
+    if (localPart.length > 64) {
+        return { isValid: false, message: 'Email address is invalid' };
+    }
+    
+    return { isValid: true, message: '' };
+}
+
+// Password validation function
+function validatePassword(password) {
+    if (!password || typeof password !== 'string') {
+        return { isValid: false, message: 'Password is required' };
+    }
+    
+    if (password.length < 6) {
+        return { isValid: false, message: 'Password must be at least 6 characters long' };
+    }
+    
+    if (password.length > 128) {
+        return { isValid: false, message: 'Password is too long' };
+    }
+    
+    // Check for common weak passwords
+    const commonPasswords = ['password', '123456', '123456789', 'qwerty', 'abc123', 'password123'];
+    if (commonPasswords.includes(password.toLowerCase())) {
+        return { isValid: false, message: 'Please choose a stronger password' };
+    }
+    
+    return { isValid: true, message: '' };
+}
+
 // Sign Up Function
 async function signUp(email, password, fullName) {
     console.log('Attempting sign up for:', email);
+    
+    // Validate inputs before Firebase call
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+        return { data: null, error: { message: emailValidation.message, code: 'invalid-email' } };
+    }
+    
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+        return { data: null, error: { message: passwordValidation.message, code: 'invalid-password' } };
+    }
+    
+    if (!fullName || typeof fullName !== 'string' || !fullName.trim()) {
+        return { data: null, error: { message: 'Full name is required', code: 'invalid-name' } };
+    }
+    
     const firebaseAuth = initFirebase();
     if (!firebaseAuth) return { error: { message: 'Firebase not initialized' } };
 
@@ -94,6 +163,18 @@ async function signUp(email, password, fullName) {
 // Sign In Function
 async function signIn(email, password) {
     console.log('Attempting sign in for:', email);
+    
+    // Validate inputs before Firebase call
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+        return { data: null, error: { message: emailValidation.message, code: 'invalid-email' } };
+    }
+    
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+        return { data: null, error: { message: passwordValidation.message, code: 'invalid-password' } };
+    }
+    
     const firebaseAuth = initFirebase();
     if (!firebaseAuth) return { error: { message: 'Firebase not initialized' } };
 
@@ -160,5 +241,7 @@ window.auth = {
     signIn,
     signOut,
     getCurrentUser,
-    onAuthStateChanged
+    onAuthStateChanged,
+    validateEmail,
+    validatePassword
 };

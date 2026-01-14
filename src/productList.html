@@ -65,7 +65,29 @@
 <button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-200/50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">
 <span class="material-symbols-outlined">shopping_cart</span>
 </button>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-800" data-alt="User profile avatar portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBa8ROIoYXL6ZzzDfrq8-bskkobePNThfDjb14OIDa_ERO6Er3cnvelpppJOw7ztDp7B7Vf0ruStG3DimeqY-oC5QcZqaODdE3p5g1_clmZ5hcOVzif9GWwHQTuDu-wjy-7UlSG34Og13lAC7JrAobFuksoylMYxW1byy7lSt8ww_YJCRT7vT73z4_SR1TOrzdMfqvhHci6fLQiEn4DA2_NNFTeR9R1EXOkJIYq5kSUeDDgXgAC8AAALM9PxXSKHs6v70y3qRzrzw");'></div>
+<div class="relative">
+    <button class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-800 hover:ring-2 hover:ring-primary/20 transition-all" id="userProfileAvatar" data-alt="User profile avatar portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBa8ROIoYXL6ZzzDfrq8-bskkobePNThfDjb14OIDa_ERO6Er3cnvelpppJOw7ztDp7B7Vf0ruStG3DimeqY-oC5QcZqaODdE3p5g1_clmZ5hcOVzif9GWwHQTuDu-wjy-7UlSG34Og13lAC7JrAobFuksoylMYxW1byy7lSt8ww_YJCRT7vT73z4_SR1TOrzdMfqvhHci6fLQiEn4DA2_NNFTeR9R1EXOkJIYq5kSUeDDgXgAC8AAALM9PxXSKHs6v70y3qRzrzw");'></button>
+    <div id="userDropdown" class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 hidden z-50">
+        <div class="p-3 border-b border-slate-200 dark:border-slate-700">
+            <p class="text-sm font-semibold text-slate-900 dark:text-white" id="userDisplayName">Guest User</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400" id="userEmail">Not logged in</p>
+        </div>
+        <div class="py-2">
+            <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                <span class="material-symbols-outlined text-[18px]">person</span>
+                My Profile
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                <span class="material-symbols-outlined text-[18px]">settings</span>
+                Settings
+            </a>
+            <button id="logoutBtn" class="flex items-center gap-3 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 w-full text-left">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+                Sign Out
+            </button>
+        </div>
+    </div>
+</div>
 </div>
 </header>
 <main class="flex flex-1 justify-center py-8">
@@ -314,9 +336,133 @@
 </div>
 </div>
 <div class="max-w-[1200px] mx-auto px-4 md:px-10 mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 text-xs text-center md:text-left">
-        © 2026 Successful Design project E-Commerce Sprint.
+        &copy; 2026 Successful Design project E-Commerce Sprint.
                 </div>
 </footer>
 </div>
 </div>
-</body></html>
+</body>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="./auth.js"></script>
+    
+<script>
+        // Wait for everything to load
+        window.addEventListener('load', function() {
+            console.log('ProductList page loaded, checking authentication...');
+            
+            // Wait a bit to ensure all scripts are loaded
+            setTimeout(function() {
+                // Check authentication state
+                checkAuthState();
+                
+                // Setup dropdown functionality
+                setupUserDropdown();
+                
+                // Setup logout functionality
+                setupLogout();
+            }, 500);
+        });
+        
+        function checkAuthState() {
+            const isLoggedIn = sessionStorage.getItem('userLoggedIn') === 'true';
+            const userEmail = sessionStorage.getItem('userEmail');
+            const userName = sessionStorage.getItem('userName');
+            
+            const userDisplayName = document.getElementById('userDisplayName');
+            const userEmailElement = document.getElementById('userEmail');
+            const userProfileAvatar = document.getElementById('userProfileAvatar');
+            
+            if (isLoggedIn && userEmail) {
+                console.log('User is logged in:', userEmail);
+                
+                // Update user display
+                if (userDisplayName) {
+                    userDisplayName.textContent = userName || userEmail;
+                }
+                if (userEmailElement) {
+                    userEmailElement.textContent = userEmail;
+                }
+                
+                // Create user initials avatar
+                if (userProfileAvatar) {
+                    const initials = getInitials(userName || userEmail);
+                    userProfileAvatar.style.backgroundImage = `url('https://ui-avatars.com/api/?name=${encodeURIComponent(userName || userEmail)}&background=random&color=fff')`;
+                    userProfileAvatar.style.backgroundSize = 'cover';
+                    userProfileAvatar.style.backgroundPosition = 'center';
+                }
+            } else {
+                console.log('User is not logged in');
+                
+                // Redirect to login if not logged in
+                if (!isLoggedIn) {
+                    alert('Please log in to access the product list.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+            }
+        }
+        
+        function getInitials(name) {
+            if (!name) return '?';
+            
+            const parts = name.split(' ');
+            if (parts.length >= 2) {
+                return parts[0][0].toUpperCase() + parts[1][0].toUpperCase();
+            } else {
+                return name.substring(0, 2).toUpperCase();
+            }
+        }
+        
+        function setupUserDropdown() {
+            const userProfileAvatar = document.getElementById('userProfileAvatar');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            if (userProfileAvatar && userDropdown) {
+                // Toggle dropdown on avatar click
+                userProfileAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userDropdown.classList.toggle('hidden');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!userDropdown.contains(e.target) && e.target !== userProfileAvatar) {
+                        userDropdown.classList.add('hidden');
+                    }
+                });
+            }
+        }
+        
+        function setupLogout() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async function() {
+                    console.log('Logout clicked');
+                    
+                    try {
+                        // Clear session storage
+                        sessionStorage.removeItem('userLoggedIn');
+                        sessionStorage.removeItem('userEmail');
+                        sessionStorage.removeItem('userName');
+                        
+                        // Sign out from Firebase
+                        if (window.auth && window.auth.signOut) {
+                            await window.auth.signOut();
+                        }
+                        
+                        console.log('User logged out successfully');
+                        
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                        
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                        alert('Error during logout. Please try again.');
+                    }
+                });
+            }
+        }
+    </script>
+</html>

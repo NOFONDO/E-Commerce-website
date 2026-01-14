@@ -107,6 +107,7 @@
                                 class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-4 text-base font-normal leading-normal"
                                 placeholder="Enter your full name" type="text" required />
                         </div>
+                        <div id="fullNameError" class="text-red-500 text-xs mt-1 hidden"></div>
                     </label>
                 </div>
                 <!-- Email Address Field -->
@@ -122,6 +123,7 @@
                                 class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-4 text-base font-normal leading-normal"
                                 placeholder="email@example.com" type="email" required />
                         </div>
+                        <div id="emailError" class="text-red-500 text-xs mt-1 hidden"></div>
                     </label>
                 </div>
                 <!-- Password Field -->
@@ -142,6 +144,7 @@
                                 <span class="material-symbols-outlined text-xl">visibility_off</span>
                             </button>
                         </div>
+                        <div id="passwordError" class="text-red-500 text-xs mt-1 hidden"></div>
                     </label>
                 </div>
                 <!-- Confirm Password Field -->
@@ -157,6 +160,7 @@
                                 class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white dark:bg-slate-800 focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-slate-200 dark:border-slate-700 h-14 placeholder:text-slate-400 pl-12 pr-4 text-base font-normal leading-normal"
                                 placeholder="••••••••" type="password" required />
                         </div>
+                        <div id="confirmPasswordError" class="text-red-500 text-xs mt-1 hidden"></div>
                     </label>
                 </div>
                 <!-- Terms and Conditions Checkbox -->
@@ -269,16 +273,133 @@
                 
                 if (registerForm) {
                     console.log('Attaching submit event listener to form...');
+                    
+                    // Get form elements
+                    const fullName = document.getElementById('fullName');
+                    const email = document.getElementById('email');
+                    const password = document.getElementById('password');
+                    const confirmPassword = document.getElementById('confirmPassword');
+                    const termsCheckbox = document.getElementById('terms');
+                    const fullNameError = document.getElementById('fullNameError');
+                    const emailError = document.getElementById('emailError');
+                    const passwordError = document.getElementById('passwordError');
+                    const confirmPasswordError = document.getElementById('confirmPasswordError');
+                    
+                    // Real-time validation functions
+                    function validateFullNameField() {
+                        const fullNameValue = fullName.value.trim();
+                        
+                        if (!fullNameValue) {
+                            fullNameError.textContent = 'Full name is required';
+                            fullNameError.classList.remove('hidden');
+                            fullName.classList.add('border-red-500');
+                            return false;
+                        } else if (fullNameValue.length < 2) {
+                            fullNameError.textContent = 'Full name must be at least 2 characters long';
+                            fullNameError.classList.remove('hidden');
+                            fullName.classList.add('border-red-500');
+                            return false;
+                        } else {
+                            fullNameError.textContent = '';
+                            fullNameError.classList.add('hidden');
+                            fullName.classList.remove('border-red-500');
+                            return true;
+                        }
+                    }
+                    
+                    function validateEmailField() {
+                        const emailValue = email.value.trim();
+                        const validation = window.auth.validateEmail(emailValue);
+                        
+                        if (!validation.isValid) {
+                            emailError.textContent = validation.message;
+                            emailError.classList.remove('hidden');
+                            email.classList.add('border-red-500');
+                            return false;
+                        } else {
+                            emailError.textContent = '';
+                            emailError.classList.add('hidden');
+                            email.classList.remove('border-red-500');
+                            return true;
+                        }
+                    }
+                    
+                    function validatePasswordField() {
+                        const passwordValue = password.value;
+                        const validation = window.auth.validatePassword(passwordValue);
+                        
+                        if (!validation.isValid) {
+                            passwordError.textContent = validation.message;
+                            passwordError.classList.remove('hidden');
+                            password.classList.add('border-red-500');
+                            return false;
+                        } else {
+                            passwordError.textContent = '';
+                            passwordError.classList.add('hidden');
+                            password.classList.remove('border-red-500');
+                            return true;
+                        }
+                    }
+                    
+                    function validateConfirmPasswordField() {
+                        const passwordValue = password.value;
+                        const confirmPasswordValue = confirmPassword.value;
+                        
+                        if (!confirmPasswordValue) {
+                            confirmPasswordError.textContent = 'Please confirm your password';
+                            confirmPasswordError.classList.remove('hidden');
+                            confirmPassword.classList.add('border-red-500');
+                            return false;
+                        } else if (passwordValue !== confirmPasswordValue) {
+                            confirmPasswordError.textContent = 'Passwords do not match';
+                            confirmPasswordError.classList.remove('hidden');
+                            confirmPassword.classList.add('border-red-500');
+                            return false;
+                        } else {
+                            confirmPasswordError.textContent = '';
+                            confirmPasswordError.classList.add('hidden');
+                            confirmPassword.classList.remove('border-red-500');
+                            return true;
+                        }
+                    }
+                    
+                    // Add real-time validation listeners
+                    fullName.addEventListener('blur', validateFullNameField);
+                    fullName.addEventListener('input', function() {
+                        if (fullNameError.classList.contains('hidden') === false) {
+                            validateFullNameField();
+                        }
+                    });
+                    
+                    email.addEventListener('blur', validateEmailField);
+                    email.addEventListener('input', function() {
+                        if (emailError.classList.contains('hidden') === false) {
+                            validateEmailField();
+                        }
+                    });
+                    
+                    password.addEventListener('blur', validatePasswordField);
+                    password.addEventListener('input', function() {
+                        if (passwordError.classList.contains('hidden') === false) {
+                            validatePasswordField();
+                        }
+                        // Also revalidate confirm password if it has a value
+                        if (confirmPassword.value) {
+                            validateConfirmPasswordField();
+                        }
+                    });
+                    
+                    confirmPassword.addEventListener('blur', validateConfirmPasswordField);
+                    confirmPassword.addEventListener('input', function() {
+                        if (confirmPasswordError.classList.contains('hidden') === false) {
+                            validateConfirmPasswordField();
+                        }
+                    });
+                    
                     registerForm.addEventListener('submit', async (e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         console.log('Form submit event triggered');
-
-                        const fullName = document.getElementById('fullName');
-                        const email = document.getElementById('email');
-                        const password = document.getElementById('password');
-                        const confirmPassword = document.getElementById('confirmPassword');
-                        const termsCheckbox = document.getElementById('terms');
 
                         console.log('Input elements:', {
                             fullName: !!fullName,
@@ -293,14 +414,14 @@
                             return;
                         }
 
-                        const fullNameValue = fullName.value.trim();
-                        const emailValue = email.value.trim();
-                        const passwordValue = password.value;
-                        const confirmPasswordValue = confirmPassword.value;
-
-                        if (!fullNameValue || !emailValue || !passwordValue || !confirmPasswordValue) {
-                            alert('Please fill in all fields');
-                            return;
+                        // Validate all fields
+                        const isFullNameValid = validateFullNameField();
+                        const isEmailValid = validateEmailField();
+                        const isPasswordValid = validatePasswordField();
+                        const isConfirmPasswordValid = validateConfirmPasswordField();
+                        
+                        if (!isFullNameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+                            return; // Block submission if validation fails
                         }
 
                         if (!termsCheckbox || !termsCheckbox.checked) {
@@ -308,15 +429,9 @@
                             return;
                         }
 
-                        if (passwordValue !== confirmPasswordValue) {
-                            alert("Passwords do not match!");
-                            return;
-                        }
-
-                        if (passwordValue.length < 6) {
-                            alert("Password must be at least 6 characters long");
-                            return;
-                        }
+                        const fullNameValue = fullName.value.trim();
+                        const emailValue = email.value.trim();
+                        const passwordValue = password.value;
 
                         console.log('Submitting registration for:', emailValue);
                         
@@ -337,10 +452,22 @@
 
                             if (error) {
                                 console.error('Registration failed:', error);
-                                alert('Failed to create user: ' + (error.message || JSON.stringify(error)));
+                                
+                                // Show specific error messages based on error code
+                                if (error.code === 'auth/email-already-in-use') {
+                                    emailError.textContent = 'An account with this email already exists';
+                                    emailError.classList.remove('hidden');
+                                    email.classList.add('border-red-500');
+                                } else if (error.code === 'auth/weak-password') {
+                                    passwordError.textContent = 'Password is too weak';
+                                    passwordError.classList.remove('hidden');
+                                    password.classList.add('border-red-500');
+                                } else {
+                                    alert('Failed to create user: ' + (error.message || JSON.stringify(error)));
+                                }
                             } else {
                                 console.log('Registration success:', data);
-                                alert('Sign up successful! Redirecting to products...');
+                                alert('Sign up successful! Redirecting to login...');
                                 window.location.href = 'login.html';
                             }
                         } catch (err) {

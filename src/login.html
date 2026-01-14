@@ -111,6 +111,7 @@
                                 class="flex w-full min-w-0 flex-1 rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-[#cfdbe7] dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary h-12 pl-12 pr-4 placeholder:text-[#4c739a] dark:placeholder:text-slate-500 text-base font-normal transition-all"
                                 placeholder="name@company.com" required="" type="email" />
                         </div>
+                        <div id="emailError" class="text-red-500 text-xs mt-1 hidden"></div>
                     </div>
                     <!-- Password Field -->
                     <div class="flex flex-col gap-2">
@@ -132,6 +133,7 @@
                                 <span class="material-symbols-outlined text-xl">visibility</span>
                             </button>
                         </div>
+                        <div id="passwordError" class="text-red-500 text-xs mt-1 hidden"></div>
                     </div>
                     <!-- Action Buttons -->
                     <div class="flex flex-col gap-3 pt-4">
@@ -181,18 +183,18 @@
     <!-- Simple Footer -->
     <footer class="px-6 py-8 border-t border-[#e7edf3] dark:border-slate-800 text-center">
         <p class="text-slate-400 text-xs font-normal">
-            © 2024 ShopModern Platform. Sprint Demo v1.0. All rights reserved.
+            2024 ShopModern Platform. Sprint Demo v1.0. All rights reserved.
         </p>
     </footer>
     <script>
         // Wait for everything to load
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             console.log('Page loaded, initializing...');
-            
+
             // Wait a bit to ensure all scripts are loaded
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log('Checking for auth module:', typeof window.auth);
-                
+
                 if (!window.auth) {
                     console.error('Auth module not found!');
                     alert('Error: Authentication module not loaded. Please refresh the page.');
@@ -204,99 +206,163 @@
                 const fbAuth = window.auth.initFirebase();
                 if (!fbAuth) {
                     console.error('Failed to initialize Firebase');
-                    alert('Error: Failed to initialize Firebase. Please check your configuration and refresh.');
+                    alert('Error: Failed to initialize Firebase. Please refresh the page.');
                     return;
                 }
 
                 const loginForm = document.getElementById('loginForm');
-                console.log('Login form found:', !!loginForm);
-                
-                // Also attach to button click as backup
+                const emailInput = document.getElementById('email');
+                const passwordInput = document.getElementById('password');
+                const emailError = document.getElementById('emailError');
+                const passwordError = document.getElementById('passwordError');
                 const submitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
-                if (submitBtn) {
-                    console.log('Submit button found:', true);
-                    submitBtn.addEventListener('click', function(e) {
-                        console.log('Submit button clicked!');
-                    });
+
+                console.log('Elements found:', {
+                    loginForm: !!loginForm,
+                    email: !!emailInput,
+                    password: !!passwordInput,
+                    emailError: !!emailError,
+                    passwordError: !!passwordError,
+                    submitBtn: !!submitBtn
+                });
+
+                if (!loginForm || !emailInput || !passwordInput || !emailError || !passwordError) {
+                    alert('Error: Form elements not found. Please refresh the page.');
+                    return;
                 }
-                
-                if (loginForm) {
-                    console.log('Attaching submit event listener to form...');
-                    loginForm.addEventListener('submit', async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('Form submit event triggered');
 
-                        const emailInput = document.getElementById('email');
-                        const passwordInput = document.getElementById('password');
+                function validateEmailField() {
+                    const email = emailInput.value.trim();
+                    const validation = window.auth.validateEmail(email);
 
-                        console.log('Input elements:', {
-                            email: !!emailInput,
-                            password: !!passwordInput
-                        });
+                    if (!validation.isValid) {
+                        emailError.textContent = validation.message;
+                        emailError.classList.remove('hidden');
+                        emailInput.classList.add('border-red-500');
+                        return false;
+                    } else {
+                        emailError.textContent = '';
+                        emailError.classList.add('hidden');
+                        emailInput.classList.remove('border-red-500');
+                        return true;
+                    }
+                }
 
-                        if (!emailInput || !passwordInput) {
-                            alert('Error: Form inputs not found. Please refresh the page.');
-                            return;
+                function validatePasswordField() {
+                    const password = passwordInput.value;
+                    const validation = window.auth.validatePassword(password);
+
+                    if (!validation.isValid) {
+                        passwordError.textContent = validation.message;
+                        passwordError.classList.remove('hidden');
+                        passwordInput.classList.add('border-red-500');
+                        return false;
+                    } else {
+                        passwordError.textContent = '';
+                        passwordError.classList.add('hidden');
+                        passwordInput.classList.remove('border-red-500');
+                        return true;
+                    }
+                }
+
+                // Add real-time validation listeners
+                emailInput.addEventListener('blur', validateEmailField);
+                emailInput.addEventListener('input', function () {
+                    if (!emailError.classList.contains('hidden')) {
+                        validateEmailField();
+                    }
+                });
+
+                passwordInput.addEventListener('blur', validatePasswordField);
+                passwordInput.addEventListener('input', function () {
+                    if (!passwordError.classList.contains('hidden')) {
+                        validatePasswordField();
+                    }
+                });
+
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Form submit event triggered');
+
+                    const isEmailValid = validateEmailField();
+                    const isPasswordValid = validatePasswordField();
+                    if (!isEmailValid || !isPasswordValid) {
+                        return; // Block submission if validation fails
+                    }
+
+                    const email = emailInput.value.trim();
+                    const password = passwordInput.value;
+                    console.log('Submitting login for:', email);
+
+                    // Disable submit button to prevent double submission
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        const btnSpan = submitBtn.querySelector('span');
+                        if (btnSpan) {
+                            btnSpan.textContent = 'Signing In...';
+                        } else {
+                            submitBtn.textContent = 'Signing In...';
                         }
+                    }
 
-                        const email = emailInput.value.trim();
-                        const password = passwordInput.value;
+                    try {
+                        const { data, error } = await window.auth.signIn(email, password);
 
-                        if (!email || !password) {
-                            alert('Please fill in all fields');
-                            return;
+                        if (error) {
+                            console.error('Login failed:', error);
+
+                            // Show specific error messages based on error code
+                            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                                emailError.textContent = 'Invalid email or password';
+                                emailError.classList.remove('hidden');
+                                passwordError.textContent = 'Invalid email or password';
+                                passwordError.classList.remove('hidden');
+                                emailInput.classList.add('border-red-500');
+                                passwordInput.classList.add('border-red-500');
+                            } else {
+                                alert('Error signing in: ' + (error.message || JSON.stringify(error)));
+                            }
+                        } else {
+                            console.log('Login success:', data);
+
+                            // Store user session and redirect
+                            sessionStorage.setItem('userLoggedIn', 'true');
+                            sessionStorage.setItem('userEmail', data.user.email);
+                            sessionStorage.setItem('userName', data.user.displayName || data.user.email);
+
+                            // Show success message briefly before redirect
+                            const successMessage = document.createElement('div');
+                            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                            successMessage.textContent = 'Login successful! Redirecting...';
+                            document.body.appendChild(successMessage);
+
+                            setTimeout(() => {
+                                window.location.href = 'productList.html';
+                            }, 1000);
                         }
-
-                        console.log('Submitting login for:', email);
-                        
-                        // Disable submit button to prevent double submission
-                        const submitBtn = loginForm.querySelector('button[type="submit"]');
+                    } catch (err) {
+                        console.error('Unexpected error:', err);
+                        alert('An unexpected error occurred: ' + err.message);
+                    } finally {
+                        // Re-enable submit button
                         if (submitBtn) {
-                            submitBtn.disabled = true;
+                            submitBtn.disabled = false;
                             const btnSpan = submitBtn.querySelector('span');
                             if (btnSpan) {
-                                btnSpan.textContent = 'Signing In...';
+                                btnSpan.textContent = 'Sign In';
                             } else {
-                                submitBtn.textContent = 'Signing In...';
+                                submitBtn.textContent = 'Sign In';
                             }
                         }
+                    }
+                });
 
-                        try {
-                            const { data, error } = await window.auth.signIn(email, password);
-
-                            if (error) {
-                                console.error('Login failed:', error);
-                                alert('Error signing in: ' + (error.message || JSON.stringify(error)));
-                            } else {
-                                console.log('Login success:', data);
-                                alert('Login successful! Redirecting...');
-                                window.location.href = 'productList.html';
-                            }
-                        } catch (err) {
-                            console.error('Unexpected error:', err);
-                            alert('An unexpected error occurred: ' + err.message);
-                        } finally {
-                            // Re-enable submit button
-                            if (submitBtn) {
-                                submitBtn.disabled = false;
-                                const btnSpan = submitBtn.querySelector('span');
-                                if (btnSpan) {
-                                    btnSpan.textContent = 'Sign In';
-                                } else {
-                                    submitBtn.textContent = 'Sign In';
-                                }
-                            }
-                        }
-                    });
-                    console.log('Form event listener attached successfully');
-                } else {
-                    console.error('Login form not found!');
-                    alert('Error: Login form not found. Please refresh the page.');
-                }
+                console.log('Form event listener attached successfully');
             }, 500); // Wait 500ms for scripts to fully load
         });
     </script>
+
 </body>
 
 </html>
