@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin Dashboard | LuxeShop</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <!-- Firebase SDK - Compat -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="./auth.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 min-h-screen">
+    <div class="min-h-screen bg-background-light">
+        <header class="flex items-center justify-between px-6 lg:px-10 py-4 border-b border-slate-200 bg-white">
+            <div class="flex items-center gap-3">
+                <div class="size-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined">dashboard</span>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Admin Portal</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-slate-900">LuxeShop Control Center</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs text-slate-500">Signed in as</p>
+                    <p id="adminEmail" class="text-sm font-semibold text-slate-900">—</p>
+                </div>
+                <button id="logoutBtn" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-semibold shadow-sm">
+                    <span class="material-symbols-outlined text-base">logout</span>
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 lg:px-8 py-10 space-y-8">
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500">Total Users</p>
+                    <p id="totalUsers" class="text-3xl font-bold mt-2 text-slate-900">—</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500">Active Users</p>
+                    <p id="activeUsers" class="text-3xl font-bold mt-2 text-slate-900">—</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500">Total Products</p>
+                    <p id="totalProducts" class="text-3xl font-bold mt-2 text-slate-900">4</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500">Low Stock (&lt;10)</p>
+                    <p id="lowStock" class="text-3xl font-bold mt-2 text-slate-900">—</p>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="rounded-2xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+                        <div>
+                            <p class="text-xs text-slate-500">Directory</p>
+                            <h2 class="text-lg font-semibold text-slate-900">Users (live from Firestore)</h2>
+                        </div>
+                        <div id="userStatus" class="text-xs text-slate-500"></div>
+                    </div>
+                    <div class="overflow-x-auto relative">
+                        <div id="userLoading" class="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm text-sm text-slate-900 hidden">
+                            Loading users...
+                        </div>
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-slate-50 text-slate-500 uppercase text-xs">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Name</th>
+                                    <th class="px-4 py-3 text-left">Email</th>
+                                    <th class="px-4 py-3 text-left">Created</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTable" class="divide-y divide-slate-200 text-slate-900"></tbody>
+                        </table>
+                        <div id="userEmpty" class="hidden px-4 py-6 text-center text-sm text-slate-500">No users found.</div>
+                        <div id="userError" class="hidden px-4 py-6 text-center text-sm text-red-600">Failed to load users. Check Firestore rules and config.</div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+                        <div>
+                            <p class="text-xs text-slate-500">Catalog (sample)</p>
+                            <h2 class="text-lg font-semibold text-slate-900">Products</h2>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-slate-50 text-slate-500 uppercase text-xs">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Product</th>
+                                    <th class="px-4 py-3 text-left">Category</th>
+                                    <th class="px-4 py-3 text-left">Price</th>
+                                    <th class="px-4 py-3 text-left">Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTable" class="divide-y divide-slate-200 text-slate-900"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const sampleProducts = [
+            { name: 'Wireless Headphones', category: 'Electronics', price: 'XAF 5,000', stock: 42 },
+            { name: 'Pro Smart Watch', category: 'Wearables', price: 'XAF 10,000', stock: 18 },
+            { name: 'ErgoDesk Chair', category: 'Furniture', price: 'XAF 25,000', stock: 7 },
+            { name: 'Mechanical Keyboard', category: 'Accessories', price: 'XAF 15,000', stock: 3 },
+        ];
+
+        function renderProducts() {
+            const tbody = document.getElementById('productTable');
+            tbody.innerHTML = sampleProducts.map(p => `
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="px-4 py-3 font-semibold">${p.name}</td>
+                    <td class="px-4 py-3 text-slate-200">${p.category}</td>
+                    <td class="px-4 py-3">${p.price}</td>
+                    <td class="px-4 py-3">${p.stock}</td>
+                </tr>
+            `).join('');
+            document.getElementById('totalProducts').textContent = sampleProducts.length;
+            document.getElementById('lowStock').textContent = sampleProducts.filter(p => p.stock < 10).length;
+        }
+
+        function redirectToLogin() {
+            alert('Admin access only. Redirecting to login.');
+            window.location.href = 'login.html';
+        }
+
+        function enforceAdmin(email) {
+            if (!email || !window.auth || !window.auth.isAdmin(email)) {
+                redirectToLogin();
+                return false;
+            }
+            return true;
+        }
+
+        async function loadUsers() {
+            const userStatus = document.getElementById('userStatus');
+            const loading = document.getElementById('userLoading');
+            const empty = document.getElementById('userEmpty');
+            const errorBox = document.getElementById('userError');
+            const tbody = document.getElementById('userTable');
+
+            loading.classList.remove('hidden');
+            empty.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            tbody.innerHTML = '';
+
+            try {
+                const users = await window.auth.fetchAllUsers();
+                loading.classList.add('hidden');
+                userStatus.textContent = `${users.length} user(s)`;
+
+                if (!users.length) {
+                    empty.classList.remove('hidden');
+                } else {
+                    tbody.innerHTML = users.map(u => `
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="px-4 py-3 font-semibold">${u.displayName || '—'}</td>
+                            <td class="px-4 py-3 text-slate-200">${u.email || '—'}</td>
+                            <td class="px-4 py-3 text-slate-300">${u.createdAt?.toDate ? u.createdAt.toDate().toLocaleString() : '—'}</td>
+                        </tr>
+                    `).join('');
+                }
+
+                document.getElementById('totalUsers').textContent = users.length;
+                document.getElementById('activeUsers').textContent = users.length; // No status flag yet
+            } catch (err) {
+                console.error('Load users failed', err);
+                loading.classList.add('hidden');
+                errorBox.classList.remove('hidden');
+                userStatus.textContent = 'Error';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (!window.auth) {
+                    alert('Authentication module not loaded.');
+                    return redirectToLogin();
+                }
+
+                const fbAuth = window.auth.initFirebase();
+                window.auth.initFirestore && window.auth.initFirestore();
+                if (!fbAuth) return redirectToLogin();
+
+                const sessionEmail = sessionStorage.getItem('userEmail');
+                const current = fbAuth.currentUser;
+                const email = current?.email || sessionEmail;
+
+                if (!enforceAdmin(email)) return;
+                document.getElementById('adminEmail').textContent = email;
+
+                fbAuth.onAuthStateChanged((user) => {
+                    const uEmail = user?.email;
+                    if (!enforceAdmin(uEmail)) return;
+                    document.getElementById('adminEmail').textContent = uEmail;
+                });
+
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', async () => {
+                        try {
+                            sessionStorage.removeItem('userLoggedIn');
+                            sessionStorage.removeItem('userEmail');
+                            sessionStorage.removeItem('userName');
+                            if (window.auth && window.auth.signOut) {
+                                await window.auth.signOut();
+                            }
+                        } catch (err) {
+                            console.error('Logout error', err);
+                        } finally {
+                            redirectToLogin();
+                        }
+                    });
+                }
+
+                renderProducts();
+                loadUsers();
+            }, 300);
+        });
+    </script>
+</body>
+</html>

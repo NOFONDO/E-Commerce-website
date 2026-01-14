@@ -1,7 +1,4 @@
 // Firebase Authentication Configuration
-// Replace these values with your Firebase project configuration
-// You can find these in Firebase Console > Project Settings > General > Your apps
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyBFxw2DJsdWHF5ODd0WcxzE3_OsFaXwiL8",
     authDomain: "kimbinotes.firebaseapp.com",
@@ -14,6 +11,7 @@ const firebaseConfig = {
 
 let auth;
 let app;
+let db;
 
 // Initialize Firebase
 function initFirebase() {
@@ -64,6 +62,19 @@ function initFirebase() {
         }
     }
     return auth;
+}
+
+// Initialize Firestore
+function initFirestore() {
+    if (db) return db;
+    const firebaseAuth = initFirebase();
+    if (!firebaseAuth) return null;
+    if (typeof firebase.firestore !== 'function') {
+        console.error('Firestore SDK not loaded.');
+        return null;
+    }
+    db = firebase.firestore();
+    return db;
 }
 
 // Email validation function
@@ -151,6 +162,21 @@ async function signUp(email, password, fullName) {
                 displayName: fullName
             });
         }
+
+        // Store user profile in Firestore
+        try {
+            const firestore = initFirestore();
+            if (firestore && user?.uid) {
+                await firestore.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: fullName,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+            }
+        } catch (err) {
+            console.error('Failed to save user profile:', err);
+        }
         
         console.log('Sign up successful:', user);
         return { data: { user: user }, error: null };
@@ -186,6 +212,35 @@ async function signIn(email, password) {
     } catch (error) {
         console.error('Sign in error:', error);
         return { data: null, error: { message: error.message, code: error.code } };
+    }
+}
+
+// Save/merge user profile (can be used after sign in)
+async function saveUserProfile(userData) {
+    try {
+        const firestore = initFirestore();
+        if (!firestore || !userData?.uid) return;
+        await firestore.collection('users').doc(userData.uid).set({
+            uid: userData.uid,
+            email: userData.email || '',
+            displayName: userData.displayName || '',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+    } catch (err) {
+        console.error('saveUserProfile error:', err);
+    }
+}
+
+// Fetch all users (requires Firestore rules to allow admin read)
+async function fetchAllUsers() {
+    try {
+        const firestore = initFirestore();
+        if (!firestore) return [];
+        const snapshot = await firestore.collection('users').orderBy('createdAt', 'desc').get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (err) {
+        console.error('fetchAllUsers error:', err);
+        return [];
     }
 }
 
@@ -234,6 +289,36 @@ function onAuthStateChanged(callback) {
     return firebaseAuth.onAuthStateChanged(callback);
 }
 
+// Send password reset email
+async function resetPassword(email) {
+    console.log('Attempting password reset for:', email);
+
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+        return { data: null, error: { message: emailValidation.message, code: 'invalid-email' } };
+    }
+
+    const firebaseAuth = initFirebase();
+    if (!firebaseAuth) return { error: { message: 'Firebase not initialized' } };
+
+    try {
+        await firebaseAuth.sendPasswordResetEmail(email);
+        console.log('Password reset email sent');
+        return { data: true, error: null };
+    } catch (error) {
+        console.error('Password reset error:', error);
+        return { data: null, error: { message: error.message, code: error.code } };
+    }
+}
+
+// Admin helper
+const ADMIN_EMAIL = 'luxeshop@gmail.com';
+
+function isAdmin(email) {
+    if (!email || typeof email !== 'string') return false;
+    return email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase();
+}
+
 // Export functions to window
 window.auth = {
     initFirebase,
@@ -243,5 +328,11 @@ window.auth = {
     getCurrentUser,
     onAuthStateChanged,
     validateEmail,
-    validatePassword
+    validatePassword,
+    initFirestore,
+    saveUserProfile,
+    fetchAllUsers,
+    isAdmin,
+    resetPassword,
+    ADMIN_EMAIL
 };

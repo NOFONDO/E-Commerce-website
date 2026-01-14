@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Login | ShopModern</title>
+    <title>Login | LuxeShop</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
@@ -55,13 +55,13 @@
     <header
         class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7edf3] dark:border-slate-800 px-6 lg:px-10 py-3 bg-white dark:bg-slate-900 w-full">
         <div class="flex items-center gap-4 text-[#0d141b] dark:text-white">
-            <div class="size-6 text-primary">
+            <div class="size-8 text-primary">
                 <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
+                    <path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+                    <path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
                 </svg>
             </div>
-            <h2 class="text-[#0d141b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">ShopModern
-            </h2>
+            <h2 class="text-[#0d141b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">LuxeShop</h2>
         </div>
         <div class="flex flex-1 justify-end gap-8">
             <div class="hidden md:flex items-center gap-9">
@@ -118,7 +118,8 @@
                         <div class="flex items-center justify-between">
                             <label
                                 class="text-[#0d141b] dark:text-slate-200 text-sm font-medium leading-normal">Password</label>
-                            <a class="text-primary text-xs font-semibold hover:underline" href="#">Forgot password?</a>
+                            <button id="forgotPasswordLink" class="text-primary text-xs font-semibold hover:underline"
+                                type="button">Forgot password?</button>
                         </div>
                         <div class="relative">
                             <span
@@ -128,9 +129,10 @@
                                 class="flex w-full min-w-0 flex-1 rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-[#cfdbe7] dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary h-12 pl-12 pr-12 placeholder:text-[#4c739a] dark:placeholder:text-slate-500 text-base font-normal transition-all"
                                 placeholder="Enter your password" required="" type="password" />
                             <button
+                                id="togglePassword"
                                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-                                type="button">
-                                <span class="material-symbols-outlined text-xl">visibility</span>
+                                type="button" aria-label="Show password">
+                                <span id="togglePasswordIcon" class="material-symbols-outlined text-xl">visibility</span>
                             </button>
                         </div>
                         <div id="passwordError" class="text-red-500 text-xs mt-1 hidden"></div>
@@ -183,7 +185,7 @@
     <!-- Simple Footer -->
     <footer class="px-6 py-8 border-t border-[#e7edf3] dark:border-slate-800 text-center">
         <p class="text-slate-400 text-xs font-normal">
-            2024 ShopModern Platform. Sprint Demo v1.0. All rights reserved.
+            2024 LuxeShop Platform. Sprint Demo v1.0. All rights reserved.
         </p>
     </footer>
     <script>
@@ -215,6 +217,9 @@
                 const passwordInput = document.getElementById('password');
                 const emailError = document.getElementById('emailError');
                 const passwordError = document.getElementById('passwordError');
+                const togglePassword = document.getElementById('togglePassword');
+                const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+                const forgotPasswordLink = document.getElementById('forgotPasswordLink');
                 const submitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
 
                 console.log('Elements found:', {
@@ -223,6 +228,8 @@
                     password: !!passwordInput,
                     emailError: !!emailError,
                     passwordError: !!passwordError,
+                    togglePassword: !!togglePassword,
+                    forgotPasswordLink: !!forgotPasswordLink,
                     submitBtn: !!submitBtn
                 });
 
@@ -280,6 +287,44 @@
                     }
                 });
 
+                // Toggle password visibility
+                if (togglePassword && togglePasswordIcon && passwordInput) {
+                    togglePassword.addEventListener('click', function () {
+                        const isHidden = passwordInput.type === 'password';
+                        passwordInput.type = isHidden ? 'text' : 'password';
+                        togglePasswordIcon.textContent = isHidden ? 'visibility_off' : 'visibility';
+                        togglePassword.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+                    });
+                }
+
+                // Forgot password flow
+                async function handleForgotPassword() {
+                    const email = emailInput.value.trim();
+                    const validation = window.auth.validateEmail(email);
+                    if (!validation.isValid) {
+                        emailError.textContent = validation.message || 'Please enter your email to reset password';
+                        emailError.classList.remove('hidden');
+                        emailInput.classList.add('border-red-500');
+                        emailInput.focus();
+                        return;
+                    }
+                    try {
+                        const { data, error } = await window.auth.resetPassword(email);
+                        if (error) {
+                            alert('Reset failed: ' + (error.message || JSON.stringify(error)));
+                            return;
+                        }
+                        alert('Password reset email sent! Please check your inbox.');
+                    } catch (err) {
+                        console.error('Unexpected reset error:', err);
+                        alert('An unexpected error occurred: ' + err.message);
+                    }
+                }
+
+                if (forgotPasswordLink) {
+                    forgotPasswordLink.addEventListener('click', handleForgotPassword);
+                }
+
                 loginForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -331,15 +376,19 @@
                             sessionStorage.setItem('userEmail', data.user.email);
                             sessionStorage.setItem('userName', data.user.displayName || data.user.email);
 
+                            const targetUrl = (window.auth && window.auth.isAdmin && window.auth.isAdmin(data.user.email))
+                                ? 'admin.html'
+                                : 'productList.html';
+
                             // Show success message briefly before redirect
                             const successMessage = document.createElement('div');
                             successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-                            successMessage.textContent = 'Login successful! Redirecting...';
+                            successMessage.textContent = `Login successful! Redirecting to ${targetUrl.replace('.html','')}...`;
                             document.body.appendChild(successMessage);
 
                             setTimeout(() => {
-                                window.location.href = 'productList.html';
-                            }, 1000);
+                                window.location.href = targetUrl;
+                            }, 800);
                         }
                     } catch (err) {
                         console.error('Unexpected error:', err);
